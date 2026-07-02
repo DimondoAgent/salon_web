@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Контакты — G&B Beauty{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Как нас найти</span>
+    <h1>Контакты</h1>
+  </div>
+</section>
+
+<section class="section" style="padding-top:64px">
+  <div class="container">
+    <div class="contacts-layout">
+
+      <!-- Contact info -->
+      <div class="contacts-info">
+        <div class="contact-block">
+          <div class="contact-block__label">Адрес</div>
+          <div class="contact-block__value">Via della Spiga, 10</div>
+          <div class="contact-block__sub">Milano, 20121 · Италия</div>
+          <div class="contact-block__sub" style="margin-top:8px; font-size:12px; color:var(--text-muted)">
+            Метро: Montenapoleone (M3)
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <div class="contact-block__label">Телефон</div>
+          <div class="contact-block__value">
+            <a href="tel:+390212345678" style="color:inherit">+39 02 1234 5678</a>
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <div class="contact-block__label">Email</div>
+          <div class="contact-block__value">
+            <a href="mailto:hello@gnbbeauty.it" style="color:var(--pink)">hello@gnbbeauty.it</a>
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <div class="contact-block__label">Часы работы</div>
+          <div style="display:grid; gap:6px; font-size:15px">
+            <div style="display:flex; justify-content:space-between; max-width:300px">
+              <span style="color:var(--text-muted)">Понедельник–Пятница</span>
+              <span>9:00 – 20:00</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; max-width:300px">
+              <span style="color:var(--text-muted)">Суббота</span>
+              <span>9:00 – 19:00</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; max-width:300px">
+              <span style="color:var(--text-muted)">Воскресенье</span>
+              <span style="color:var(--pink)">Выходной</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messenger buttons -->
+        <div class="messenger-links">
+          <a href="https://t.me/gbnails" class="messenger-btn">
+            <span>✈️</span> Telegram
+          </a>
+          <a href="https://wa.me/390212345678" class="messenger-btn">
+            <span>💬</span> WhatsApp
+          </a>
+          <a href="https://instagram.com/gbnails_milan" class="messenger-btn">
+            <span>📸</span> Instagram
+          </a>
+        </div>
+
+        <div style="margin-top:40px">
+          <a href="{{ url_for('main.booking') }}" class="btn btn-primary">Записаться онлайн</a>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="contacts-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.0!2d9.193!3d45.467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zVmlhIGRlbGxhIFNwaWdh!5e0!3m2!1sru!2sit!4v1234567890"
+          width="100%"
+          height="100%"
+          style="min-height:500px"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="G&B Beauty на карте">
+        </iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

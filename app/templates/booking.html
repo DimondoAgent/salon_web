@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% block title %}Онлайн-запись — G&B Beauty{% endblock %}
+
+{% block content %}
+<div style="padding-top:72px">
+  <div class="booking-layout">
+
+    <!-- ── Left: wizard steps ─────────────────────────────────────────── -->
+    <div class="booking-main">
+
+      <!-- Step indicator -->
+      <div class="steps">
+        <div class="step-dot active" data-step="1">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="2">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="3">3</div>
+      </div>
+
+      <!-- ── Step 1: Choose service ─────────────────────────────────── -->
+      <div class="step-panel active" id="step1">
+        <h2 class="step-title">Выберите услугу</h2>
+
+        {% if services %}
+          {% set cur_cat = namespace(id=-1) %}
+          {% for svc in services %}
+            {% if svc.category_id != cur_cat.id %}
+              {% if cur_cat.id != -1 %}</div>{% endif %}
+              <div style="margin-bottom:8px">
+                <div class="section-label" style="margin-bottom:12px">
+                  {% if svc.category %}{{ svc.category.icon or '' }} {{ svc.category.name }}{% endif %}
+                </div>
+              <div class="service-pick-grid">
+              {% set cur_cat.id = svc.category_id %}
+            {% endif %}
+
+            <div class="service-pick"
+                 data-id="{{ svc.id }}"
+                 data-title="{{ svc.title }}"
+                 data-price="{{ svc.price }}"
+                 data-duration="{{ svc.duration_minutes }}">
+              <div class="service-pick__name">{{ svc.title }}</div>
+              <div class="service-pick__meta">⏱ {{ svc.duration_minutes }} мин</div>
+              <div class="service-pick__price">{{ svc.price }} €</div>
+            </div>
+
+          {% endfor %}
+          {% if services %}</div></div>{% endif %}
+
+        {% else %}
+          <!-- Fallback demo services when DB is empty -->
+          <div style="margin-bottom:24px">
+            <div class="section-label" style="margin-bottom:12px">💅 Маникюр</div>
+            <div class="service-pick-grid">
+              <div class="service-pick" data-id="1" data-title="Классический маникюр" data-price="40" data-duration="60">
+                <div class="service-pick__name">Классический маникюр</div>
+                <div class="service-pick__meta">⏱ 60 мин</div>
+                <div class="service-pick__price">40 €</div>
+              </div>
+              <div class="service-pick" data-id="2" data-title="Маникюр с гель-лаком" data-price="60" data-duration="90">
+                <div class="service-pick__name">Маникюр с гель-лаком</div>
+                <div class="service-pick__meta">⏱ 90 мин</div>
+                <div class="service-pick__price">60 €</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:24px">
+            <div class="section-label" style="margin-bottom:12px">✨ Брови</div>
+            <div class="service-pick-grid">
+              <div class="service-pick" data-id="3" data-title="Коррекция бровей" data-price="25" data-duration="30">
+                <div class="service-pick__name">Коррекция бровей</div>
+                <div class="service-pick__meta">⏱ 30 мин</div>
+                <div class="service-pick__price">25 €</div>
+              </div>
+              <div class="service-pick" data-id="4" data-title="Ламинирование бровей" data-price="35" data-duration="40">
+                <div class="service-pick__name">Ламинирование бровей</div>
+                <div class="service-pick__meta">⏱ 40 мин</div>
+                <div class="service-pick__price">35 €</div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <div style="margin-top:40px">
+          <button class="btn btn-primary" id="next1" style="width:100%">Далее →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Master + Date + Time ──────────────────────────── -->
+      <div class="step-panel" id="step2">
+        <h2 class="step-title">Выберите мастера и время</h2>
+
+        <div class="section-label" style="margin-bottom:16px">Мастер</div>
+        <div class="master-pick-grid">
+          {% if masters %}
+            {% for master in masters %}
+            <div class="master-pick" data-id="{{ master.id }}">
+              <div class="master-pick__avatar">
+                {% if master.photo_url %}
+                  <img src="{{ url_for('static', filename=master.photo_url) }}" style="width:100%;height:100%;object-fit:cover">
+                {% else %}
+                  👩‍🎨
+                {% endif %}
+              </div>
+              <div>
+                <div class="master-pick__name">{{ master.name }}</div>
+                <div class="master-pick__spec">{{ master.specialty }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <!-- Demo masters -->
+            {% for name, spec in [('Анна Романова', 'Маникюр · Педикюр'), ('Мария Сорокина', 'Брови · Ресницы'), ('Елена Ким', 'Маникюр · Дизайн')] %}
+            <div class="master-pick" data-id="{{ loop.index }}">
+              <div class="master-pick__avatar">👩‍🎨</div>
+              <div>
+                <div class="master-pick__name">{{ name }}</div>
+                <div class="master-pick__spec">{{ spec }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="section-label" style="margin:28px 0 16px">Дата</div>
+        <div class="date-picker-row" id="date-picker"></div>
+
+        <div class="section-label" style="margin:28px 0 16px">Время</div>
+        <div class="time-grid" id="time-grid">
+          <span style="color:var(--text-muted); font-size:13px; grid-column:1/-1">
+            Выберите мастера и дату
+          </span>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:40px">
+          <button class="btn btn-ghost" id="back2">← Назад</button>
+          <button class="btn btn-primary" id="next2" style="flex:1">Далее →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Contact details ────────────────────────────────── -->
+      <div class="step-panel" id="step3">
+        <h2 class="step-title">Ваши данные</h2>
+
+        <form id="booking-form">
+          <div class="form-group">
+            <label class="form-label" for="f-name">Имя *</label>
+            <input class="form-input" id="f-name" type="text" placeholder="Как к вам обращаться?" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-phone">Телефон *</label>
+            <input class="form-input" id="f-phone" type="tel" placeholder="+39 …" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-email">Email</label>
+            <input class="form-input" id="f-email" type="email" placeholder="для подтверждения">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-notes">Пожелания</label>
+            <textarea class="form-textarea" id="f-notes" placeholder="Дизайн, особые пожелания…"></textarea>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:32px">
+            <button type="button" class="btn btn-ghost" id="back3">← Назад</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn" style="flex:1">
+              Записаться
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Success ───────────────────────────────────────────────── -->
+      <div class="step-panel booking-success" id="step-success">
+        <div class="booking-success__icon">✓</div>
+        <h2>Запись принята!</h2>
+        <p>Мы свяжемся с вами для подтверждения в течение 30 минут.</p>
+        <div style="margin-top:32px; display:flex; gap:12px; justify-content:center">
+          <a href="{{ url_for('main.index') }}" class="btn btn-ghost">На главную</a>
+          <a href="{{ url_for('main.booking') }}" class="btn btn-outline">Новая запись</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right: summary sidebar ──────────────────────────────────────── -->
+    <aside class="booking-sidebar">
+      <div class="section-label" style="margin-bottom:24px">Ваш заказ</div>
+
+      <div class="summary-card">
+        <div class="summary-title">Детали записи</div>
+        <div class="summary-row">
+          <span class="summary-key">Услуга</span>
+          <span class="summary-val" id="sum-service">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Мастер</span>
+          <span class="summary-val" id="sum-master">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Дата и время</span>
+          <span class="summary-val" id="sum-datetime">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Длительность</span>
+          <span class="summary-val" id="sum-duration">—</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span class="summary-key">Стоимость</span>
+          <span class="summary-val" id="sum-price">—</span>
+        </div>
+      </div>
+
+      <div style="font-size:12px; color:var(--text-muted); line-height:1.8">
+        <p>📍 Via della Spiga, 10, Milano</p>
+        <p style="margin-top:8px">⏰ Работаем: Пн–Сб 9:00–20:00</p>
+        <p style="margin-top:8px">❓ Вопросы?
+          <a href="https://t.me/gbnails" style="color:var(--pink)">Напишите нам</a>
+        </p>
+      </div>
+    </aside>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}

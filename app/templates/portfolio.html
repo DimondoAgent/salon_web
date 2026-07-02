@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Портфолио — G&B Beauty{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Наши работы</span>
+    <h1>Портфолио</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Filter tabs -->
+    <div class="category-tabs" style="margin-bottom:40px">
+      <button class="category-tab active" data-category="all">Все работы</button>
+      <button class="category-tab" data-category="manicure">💅 Маникюр</button>
+      <button class="category-tab" data-category="pedicure">🦶 Педикюр</button>
+      <button class="category-tab" data-category="brows">✨ Брови</button>
+      <button class="category-tab" data-category="lashes">👁 Ресницы</button>
+    </div>
+
+    <!-- Gallery grid -->
+    <div class="portfolio-grid" id="portfolio-gallery">
+      {% for i in range(12) %}
+      <div class="portfolio-item" data-category="{{ ['manicure','pedicure','brows','lashes'][i % 4] }}">
+        <div class="portfolio-placeholder">
+          {{ ['💅','🦶','✨','👁'][i % 4] }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="text-align:center; margin-top:48px; color:var(--text-muted); font-size:14px">
+      Загружайте фотографии через <a href="{{ url_for('admin.dashboard') }}" style="color:var(--gold)">панель администратора</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Хотите так же?</h2>
+  <p>Запишитесь к нашим мастерам прямо сейчас</p>
+  <a href="{{ url_for('main.booking') }}" class="btn btn-primary">Записаться</a>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Portfolio category filter
+const tabs  = document.querySelectorAll('.category-tab');
+const items = document.querySelectorAll('.portfolio-item[data-category]');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat = tab.dataset.category;
+    items.forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.category === cat) ? '' : 'none';
+    });
+  });
+});
+</script>
+{% endblock %}

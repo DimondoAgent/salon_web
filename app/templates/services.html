@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Услуги и цены — G&B Beauty{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Прайс-лист</span>
+    <h1>Услуги и цены</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Category tabs -->
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="all">Все</button>
+      {% for cat in categories %}
+        <button class="category-tab" data-category="{{ cat.id }}">
+          {% if cat.icon %}{{ cat.icon }} {% endif %}{{ cat.name }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <!-- Services list -->
+    {% if categories %}
+      {% for cat in categories %}
+        <div style="margin-bottom:48px">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:2px; padding-bottom:16px; border-bottom:1px solid var(--border)">
+            <span style="font-size:20px">{{ cat.icon or '✦' }}</span>
+            <span class="section-label" style="margin:0">{{ cat.name }}</span>
+          </div>
+
+          <div class="services-list">
+            {% for svc in cat.services if svc.is_active %}
+            <div class="service-row" data-category="{{ cat.id }}">
+              <div>
+                <div class="service-row__name">{{ svc.title }}</div>
+                {% if svc.description %}
+                  <div class="service-row__desc">{{ svc.description }}</div>
+                {% endif %}
+              </div>
+              <div class="service-row__duration">⏱ {{ svc.duration_minutes }} мин</div>
+              <div>
+                <div class="service-row__price">{{ svc.price }} €</div>
+                <a href="{{ url_for('main.booking') }}" class="btn btn-ghost btn-sm"
+                   style="font-size:12px; padding:6px 16px; margin-top:8px; display:inline-block">
+                  Записаться
+                </a>
+              </div>
+            </div>
+            {% else %}
+              <div style="padding:24px; color:var(--text-muted); font-size:14px">Услуги в этой категории скоро появятся</div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Fallback static content when DB is empty -->
+      {% set static_cats = [
+        ('💅', 'Маникюр', [
+          ('Классический маникюр', 'Обработка, форма, покрытие', 60, 40),
+          ('Аппаратный маникюр', 'Деликатная обработка кутикулы', 75, 50),
+          ('Маникюр с гель-лаком', 'Гель-покрытие, стойкость 3–4 недели', 90, 60),
+          ('Наращивание ногтей (гель)', 'Моделирование, любая форма', 120, 85),
+        ]),
+        ('🦶', 'Педикюр', [
+          ('Классический педикюр', 'Обработка, форма, покрытие', 75, 55),
+          ('Аппаратный SPA-педикюр', 'Ванночка, аппарат, маска, массаж', 100, 70),
+          ('Комби-педикюр', 'Аппарат + инструменты', 90, 65),
+        ]),
+        ('✨', 'Брови и ресницы', [
+          ('Коррекция бровей', 'Форма по типу лица', 30, 25),
+          ('Окрашивание бровей', 'Хна или краска', 20, 18),
+          ('Ламинирование бровей', 'Укладка и уход до 6 недель', 40, 35),
+          ('Наращивание ресниц (1D)', 'Классический объём', 90, 65),
+          ('Наращивание ресниц (2D–3D)', 'Лёгкий объём', 120, 80),
+        ]),
+      ] %}
+
+      {% for icon, cat_name, items in static_cats %}
+      <div style="margin-bottom:48px">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:2px; padding-bottom:16px; border-bottom:1px solid var(--border)">
+          <span style="font-size:20px">{{ icon }}</span>
+          <span class="section-label" style="margin:0">{{ cat_name }}</span>
+        </div>
+        <div class="services-list">
+          {% for title, desc, duration, price in items %}
+          <div class="service-row" data-category="{{ loop.index }}">
+            <div>
+              <div class="service-row__name">{{ title }}</div>
+              <div class="service-row__desc">{{ desc }}</div>
+            </div>
+            <div class="service-row__duration">⏱ {{ duration }} мин</div>
+            <div>
+              <div class="service-row__price">{{ price }} €</div>
+              <a href="{{ url_for('main.booking') }}" class="btn btn-ghost"
+                 style="font-size:12px; padding:6px 16px; margin-top:8px; display:inline-block">
+                Записаться
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Готовы преобразиться?</h2>
+  <p>Запишитесь онлайн прямо сейчас</p>
+  <a href="{{ url_for('main.booking') }}" class="btn btn-primary">Записаться</a>
+</section>
+
+{% endblock %}

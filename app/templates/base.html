@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}G&B Beauty Salon{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="{{ url_for('main.index') }}" class="nav__logo">G<span>&</span>B</a>
+
+    <ul class="nav__links">
+      <li><a href="{{ url_for('main.services') }}">Услуги</a></li>
+      <li><a href="{{ url_for('main.portfolio') }}">Портфолио</a></li>
+      <li><a href="{{ url_for('main.contacts') }}">Контакты</a></li>
+    </ul>
+
+    <a href="{{ url_for('main.booking') }}" class="nav__cta btn btn-primary">Записаться</a>
+
+    <button class="nav__burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for cat, msg in messages %}
+          <div class="flash flash-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Page content -->
+  {% block content %}{% endblock %}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">G<span>&</span>B</div>
+          <p class="footer__about">
+            Студия красоты в Милане. Профессиональный маникюр, педикюр, брови и ресницы.
+            Мы создаём безупречные образы с любовью к каждому клиенту.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer__heading">Навигация</div>
+          <ul class="footer__links">
+            <li><a href="{{ url_for('main.index') }}">Главная</a></li>
+            <li><a href="{{ url_for('main.services') }}">Услуги и цены</a></li>
+            <li><a href="{{ url_for('main.portfolio') }}">Портфолио</a></li>
+            <li><a href="{{ url_for('main.booking') }}">Онлайн-запись</a></li>
+            <li><a href="{{ url_for('main.contacts') }}">Контакты</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer__heading">Контакты</div>
+          <div class="footer__contact-item">📍 Via della Spiga, 10, Milano</div>
+          <div class="footer__contact-item">📞 +39 02 1234567</div>
+          <div class="footer__contact-item">⏰ Пн–Сб: 9:00 – 20:00</div>
+          <div style="margin-top:16px">
+            <a href="https://t.me/gbnails" class="footer__contact-item" style="color:var(--pink)">✈️ Telegram</a>
+            <a href="https://wa.me/39021234567" class="footer__contact-item" style="color:var(--pink)">💬 WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© {{ 2025 }} G&B Beauty Salon</span>
+        <span style="color:var(--text-muted)">Milano · Italy</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

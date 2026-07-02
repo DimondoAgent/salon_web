@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}G&B Beauty — Салон красоты{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__content">
+    <span class="hero__eyebrow">Салон красоты · Milano</span>
+    <h1 class="hero__title">
+      G<span style="color:var(--gold)">&</span>B<br>
+      <em>Beauty</em>
+    </h1>
+    <div class="hero__rule"></div>
+    <p class="hero__sub">Маникюр · Педикюр · Брови · Ресницы</p>
+    <div class="hero__actions">
+      <a href="{{ url_for('main.booking') }}" class="btn btn-primary">Записаться онлайн</a>
+      <a href="{{ url_for('main.portfolio') }}" class="btn btn-outline">Наши работы</a>
+    </div>
+  </div>
+  <div class="hero__scroll">
+    <div class="hero__scroll-line"></div>
+    <span>прокрути</span>
+  </div>
+</section>
+
+<!-- ── Stats ─────────────────────────────────────────────────────────────── -->
+<section class="stats">
+  <div class="stats__grid">
+    <div class="stats__item">
+      <div class="stats__num">5</div>
+      <div class="stats__label">лет опыта</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__num">12</div>
+      <div class="stats__label">мастеров</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__num">10K+</div>
+      <div class="stats__label">довольных клиентов</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__num">4.9</div>
+      <div class="stats__label">рейтинг Google</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services preview ──────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Что мы делаем</span>
+      <h2>Услуги</h2>
+      <p>Каждая деталь продумана до совершенства — от выбора материалов до финального штриха</p>
+    </div>
+
+    <div class="services-grid">
+      {% set service_items = [
+        ('💅', 'Маникюр', 'Классический, аппаратный, с гель-лаком. Уход, который говорит сам за себя.', 'от 40 €'),
+        ('🦶', 'Педикюр', 'Аппаратный SPA-педикюр с элементами массажа и парафинотерапией.', 'от 55 €'),
+        ('✨', 'Брови и ресницы', 'Коррекция, окрашивание, ламинирование. Взгляд, который запоминается.', 'от 30 €'),
+        ('💆', 'Уход за руками', 'Парафинотерапия, экспресс-SPA, интенсивное питание.', 'от 25 €'),
+      ] %}
+
+      {% for icon, title, desc, price in service_items %}
+      <article class="service-card" onclick="window.location='{{ url_for('main.services') }}'">
+        <div class="service-card__icon">{{ icon }}</div>
+        <div class="service-card__title">{{ title }}</div>
+        <div class="service-card__desc">{{ desc }}</div>
+        <div class="service-card__footer">
+          <span class="service-card__price">{{ price }}</span>
+          <span class="service-card__link">Подробнее →</span>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div style="margin-top:40px; text-align:center">
+      <a href="{{ url_for('main.services') }}" class="btn btn-outline">Все услуги и цены</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Masters ───────────────────────────────────────────────────────────── -->
+{% if masters %}
+<section class="section masters-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Наша команда</span>
+      <h2>Мастера</h2>
+      <p>Профессионалы, влюблённые в своё дело</p>
+    </div>
+
+    <div class="masters-grid">
+      {% for master in masters %}
+      <article class="master-card">
+        <div class="master-card__photo">
+          {% if master.photo_url %}
+            <img src="{{ url_for('static', filename=master.photo_url) }}" alt="{{ master.name }}">
+          {% else %}
+            <div class="master-card__photo-placeholder">👩‍🎨</div>
+          {% endif %}
+        </div>
+        <div class="master-card__info">
+          <div class="master-card__name">{{ master.name }}</div>
+          <div class="master-card__spec">{{ master.specialty }}</div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Portfolio preview ─────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px">
+      <div>
+        <span class="section-label">Работы</span>
+        <h2>Портфолио</h2>
+      </div>
+      <a href="{{ url_for('main.portfolio') }}" class="btn btn-ghost">Смотреть все</a>
+    </div>
+
+    <div class="portfolio-grid">
+      {% for i in range(6) %}
+      <div class="portfolio-item">
+        <div class="portfolio-placeholder">💅</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA band ──────────────────────────────────────────────────────────── -->
+<section class="cta-band">
+  <h2>Запишитесь онлайн</h2>
+  <p>Выберите услугу, мастера и удобное время — всё за 2 минуты</p>
+  <a href="{{ url_for('main.booking') }}" class="btn btn-primary">Записаться сейчас</a>
+</section>
+
+{% endblock %}
