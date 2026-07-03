@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app import db
 from app.models import Service, Master, Booking, Client, ServiceCategory, MasterSchedule
+from app.translations import t
 from datetime import datetime, timedelta, date
 
 api_bp = Blueprint('api', __name__)
@@ -123,7 +124,7 @@ def create_booking():
         Booking.end_time > start_time,
     ).first()
     if overlap:
-        return jsonify({'error': 'Это время уже занято. Пожалуйста, выберите другое.'}), 409
+        return jsonify({'error': t('api.slot_taken')}), 409
 
     # Get or create client
     client = Client.query.filter_by(phone=data['phone']).first()
@@ -153,5 +154,5 @@ def create_booking():
     return jsonify({
         'success':    True,
         'booking_id': booking.id,
-        'message':    'Запись создана! Мы свяжемся с вами для подтверждения.',
+        'message':    t('api.booking_created'),
     }), 201

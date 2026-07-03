@@ -1,0 +1,61 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ t('admin.dashboard.title') }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <h1>{{ t('admin.dashboard.heading') }}</h1>
+  <p>{{ t('admin.dashboard.subtitle') }}</p>
+</div>
+
+<div class="stat-cards">
+  <div class="stat-card">
+    <div class="stat-card__num">{{ stats.today_count }}</div>
+    <div class="stat-card__label">{{ t('admin.dashboard.stat_today') }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card__num">{{ stats.pending_count }}</div>
+    <div class="stat-card__label">{{ t('admin.dashboard.stat_pending') }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card__num">{{ stats.total_clients }}</div>
+    <div class="stat-card__label">{{ t('admin.dashboard.stat_clients') }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card__num">{{ stats.total_masters }}</div>
+    <div class="stat-card__label">{{ t('admin.dashboard.stat_masters') }}</div>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card__heading">{{ t('admin.dashboard.today_bookings') }}</div>
+
+  {% if today_bookings %}
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>{{ t('admin.dashboard.col_time') }}</th>
+          <th>{{ t('admin.dashboard.col_client') }}</th>
+          <th>{{ t('admin.dashboard.col_service') }}</th>
+          <th>{{ t('admin.dashboard.col_master') }}</th>
+          <th>{{ t('admin.dashboard.col_status') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in today_bookings %}
+        <tr>
+          <td>{{ b.start_time.strftime('%H:%M') }}</td>
+          <td>{{ b.client.name }}</td>
+          <td>{{ b.service.title }}</td>
+          <td>{{ b.master.name }}</td>
+          <td><span class="badge badge-{{ b.status }}">{{ t('admin.status.' ~ b.status) }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="admin-empty">{{ t('admin.dashboard.no_bookings_today') }}</div>
+  {% endif %}
+</div>
+{% endblock %}

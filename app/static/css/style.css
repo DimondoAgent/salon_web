@@ -177,6 +177,31 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; }
   transition: all 0.3s;
 }
 
+/* ─── Language Switcher ──────────────────────────────────────────────────── */
+.lang-switch {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.lang-switch__item {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.2s, border-bottom 0.2s;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.lang-switch__item:hover,
+.lang-switch__item.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
 /* ─── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
   min-height: 100vh;

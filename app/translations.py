@@ -1,0 +1,720 @@
+# -*- coding: utf-8 -*-
+"""
+Lightweight i18n for G&B Beauty Salon.
+
+Two languages are supported: Italian (default) and English.
+Strings are organised in nested dictionaries and looked up with
+dotted paths, e.g. t('nav.services').
+
+Content entered through the admin panel (service names, master bios,
+category names, etc.) is stored as free text by the salon owner and is
+NOT machine-translated — only the site's own interface copy lives here.
+"""
+
+LANGUAGES = ['it', 'en']
+DEFAULT_LANG = 'it'
+
+LANGUAGE_LABELS = {
+    'it': 'IT',
+    'en': 'EN',
+}
+
+TRANSLATIONS = {
+    'it': {
+        'meta': {
+            'default_title': 'G&B Beauty Salon',
+        },
+        'nav': {
+            'services': 'Servizi',
+            'portfolio': 'Portfolio',
+            'contacts': 'Contatti',
+            'book': 'Prenota',
+            'menu': 'Menu',
+        },
+        'footer': {
+            'about': 'Salone di bellezza nel cuore di Milano. Manicure, pedicure, sopracciglia e ciglia professionali. '
+                     'Creiamo look impeccabili con cura per ogni cliente.',
+            'nav_heading': 'Navigazione',
+            'home': 'Home',
+            'services_prices': 'Servizi e prezzi',
+            'portfolio': 'Portfolio',
+            'book_online': 'Prenotazione online',
+            'contacts': 'Contatti',
+            'contacts_heading': 'Contatti',
+            'hours_short': 'Lun–Sab: 9:00 – 20:00',
+            'rights': 'Tutti i diritti riservati.',
+        },
+        'home': {
+            'title': 'G&B Beauty — Salone di bellezza a Milano',
+            'eyebrow': 'Salone di bellezza · Milano',
+            'sub': 'Manicure · Pedicure · Sopracciglia · Ciglia',
+            'book_online': 'Prenota online',
+            'our_work': 'I nostri lavori',
+            'scroll': 'scorri',
+            'stats': {
+                'years': 'anni di esperienza',
+                'masters': 'professioniste',
+                'clients': 'clienti soddisfatte',
+                'rating': 'valutazione Google',
+            },
+            'services': {
+                'label': 'Cosa facciamo',
+                'heading': 'Servizi',
+                'subtitle': 'Ogni dettaglio è curato alla perfezione: dalla scelta dei materiali al tocco finale.',
+                'more': 'Scopri di più →',
+                'view_all': 'Tutti i servizi e i prezzi',
+                'items': [
+                    {'icon': '💅', 'title': 'Manicure', 'desc': 'Classica, semipermanente o con smalto gel. Una cura che parla da sé.', 'price': 'da 40 €'},
+                    {'icon': '🦶', 'title': 'Pedicure', 'desc': 'Pedicure SPA con elementi di massaggio e paraffinoterapia.', 'price': 'da 55 €'},
+                    {'icon': '✨', 'title': 'Sopracciglia e ciglia', 'desc': 'Correzione, colorazione, laminazione. Uno sguardo che si ricorda.', 'price': 'da 30 €'},
+                    {'icon': '💆', 'title': 'Trattamenti mani', 'desc': 'Paraffinoterapia, SPA express, nutrimento intensivo.', 'price': 'da 25 €'},
+                ],
+            },
+            'masters': {
+                'label': 'La nostra squadra',
+                'heading': 'Professioniste',
+                'subtitle': 'Professioniste innamorate del proprio lavoro.',
+            },
+            'portfolio': {
+                'label': 'Lavori',
+                'heading': 'Portfolio',
+                'view_all': 'Vedi tutto',
+            },
+            'cta': {
+                'heading': 'Prenota online',
+                'subtitle': 'Scegli servizio, professionista e orario: tutto in 2 minuti.',
+                'button': 'Prenota ora',
+            },
+        },
+        'services_page': {
+            'title': 'Servizi e prezzi — G&B Beauty',
+            'label': 'Listino prezzi',
+            'heading': 'Servizi e prezzi',
+            'tab_all': 'Tutti',
+            'coming_soon': 'I servizi di questa categoria arriveranno presto',
+            'book': 'Prenota',
+            'cta_heading': 'Pronta a trasformarti?',
+            'cta_subtitle': 'Prenota online in pochi secondi',
+            'cta_button': 'Prenota',
+            'categories': [
+                {
+                    'icon': '💅', 'name': 'Manicure',
+                    'items': [
+                        {'title': 'Manicure classica', 'desc': 'Preparazione, forma, smalto', 'duration': 60, 'price': 40},
+                        {'title': 'Manicure combinata', 'desc': 'Trattamento delicato della cuticola', 'duration': 75, 'price': 50},
+                        {'title': 'Manicure con smalto gel', 'desc': 'Copertura gel, dura 3–4 settimane', 'duration': 90, 'price': 60},
+                        {'title': 'Ricostruzione unghie (gel)', 'desc': 'Modellatura, qualsiasi forma', 'duration': 120, 'price': 85},
+                    ],
+                },
+                {
+                    'icon': '🦶', 'name': 'Pedicure',
+                    'items': [
+                        {'title': 'Pedicure classica', 'desc': 'Preparazione, forma, smalto', 'duration': 75, 'price': 55},
+                        {'title': 'Pedicure SPA', 'desc': 'Bagno, trattamento, maschera, massaggio', 'duration': 100, 'price': 70},
+                        {'title': 'Pedicure combinata', 'desc': 'Trattamento combinato + strumenti', 'duration': 90, 'price': 65},
+                    ],
+                },
+                {
+                    'icon': '✨', 'name': 'Sopracciglia e ciglia',
+                    'items': [
+                        {'title': 'Correzione sopracciglia', 'desc': 'Forma adatta al viso', 'duration': 30, 'price': 25},
+                        {'title': 'Colorazione sopracciglia', 'desc': 'Henné o tinta', 'duration': 20, 'price': 18},
+                        {'title': 'Laminazione sopracciglia', 'desc': 'Effetto duraturo fino a 6 settimane', 'duration': 40, 'price': 35},
+                        {'title': 'Extension ciglia (1D)', 'desc': 'Volume classico', 'duration': 90, 'price': 65},
+                        {'title': 'Extension ciglia (2D–3D)', 'desc': 'Volume leggero', 'duration': 120, 'price': 80},
+                    ],
+                },
+            ],
+        },
+        'booking_page': {
+            'title': 'Prenotazione online — G&B Beauty',
+            'step1_title': 'Scegli il servizio',
+            'step2_title': 'Scegli la professionista e l\'orario',
+            'step3_title': 'I tuoi dati',
+            'next': 'Avanti →',
+            'back': '← Indietro',
+            'master_label': 'Professionista',
+            'date_label': 'Data',
+            'time_label': 'Orario',
+            'choose_master_date': 'Scegli professionista e data',
+            'name_label': 'Nome *',
+            'name_placeholder': 'Come possiamo chiamarti?',
+            'phone_label': 'Telefono *',
+            'email_label': 'Email',
+            'email_placeholder': 'per la conferma',
+            'notes_label': 'Note',
+            'notes_placeholder': 'Design, richieste particolari…',
+            'submit': 'Prenota',
+            'success_title': 'Prenotazione ricevuta!',
+            'success_text': 'Ti contatteremo per confermare entro 30 minuti.',
+            'home_button': 'Home',
+            'new_booking_button': 'Nuova prenotazione',
+            'sidebar_title': 'Il tuo riepilogo',
+            'details_title': 'Dettagli prenotazione',
+            'service_label': 'Servizio',
+            'datetime_label': 'Data e ora',
+            'duration_label': 'Durata',
+            'price_label': 'Prezzo',
+            'hours_line': 'Orari: Lun–Sab 9:00–20:00',
+            'questions': 'Domande?',
+            'write_us': 'Scrivici',
+            'fallback_services': [
+                {'title': 'Manicure classica', 'price': 40, 'duration': 60},
+                {'title': 'Manicure con smalto gel', 'price': 60, 'duration': 90},
+                {'title': 'Correzione sopracciglia', 'price': 25, 'duration': 30},
+                {'title': 'Laminazione sopracciglia', 'price': 35, 'duration': 40},
+            ],
+            'fallback_categories': ['Manicure', 'Sopracciglia'],
+            'fallback_masters': [
+                {'name': 'Giulia Bianchi', 'spec': 'Manicure · Pedicure'},
+                {'name': 'Martina Rossi', 'spec': 'Sopracciglia · Ciglia'},
+                {'name': 'Chiara Conti', 'spec': 'Manicure · Nail Art'},
+            ],
+        },
+        'portfolio_page': {
+            'title': 'Portfolio — G&B Beauty',
+            'label': 'I nostri lavori',
+            'heading': 'Portfolio',
+            'tab_all': 'Tutti i lavori',
+            'tab_manicure': 'Manicure',
+            'tab_pedicure': 'Pedicure',
+            'tab_brows': 'Sopracciglia',
+            'tab_lashes': 'Ciglia',
+            'upload_note': 'Carica le foto tramite il',
+            'upload_note_link': 'pannello di amministrazione',
+            'cta_heading': 'Vuoi lo stesso risultato?',
+            'cta_subtitle': 'Prenota subito con le nostre professioniste',
+            'cta_button': 'Prenota',
+        },
+        'contacts_page': {
+            'title': 'Contatti — G&B Beauty',
+            'label': 'Come trovarci',
+            'heading': 'Contatti',
+            'address_label': 'Indirizzo',
+            'address_sub': 'Milano, 20121 · Italia',
+            'metro': 'Metro: Montenapoleone (M3)',
+            'phone_label': 'Telefono',
+            'hours_label': 'Orari di apertura',
+            'mon_fri': 'Lunedì–Venerdì',
+            'saturday': 'Sabato',
+            'sunday': 'Domenica',
+            'closed': 'Chiuso',
+            'questions': 'Domande?',
+            'write_us': 'Scrivici',
+            'book_online': 'Prenota online',
+            'map_title': 'G&B Beauty sulla mappa',
+            'map_hl': 'it',
+        },
+        'js': {
+            'days': ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
+            'months': ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+            'min': 'min',
+            'choose_service': 'Scegli un servizio',
+            'choose_master': 'Scegli una professionista',
+            'choose_date': 'Scegli una data',
+            'choose_time': 'Scegli un orario',
+            'loading_slots': 'Carico gli orari disponibili…',
+            'no_slots': 'Nessun orario disponibile in questa data',
+            'load_error': 'Errore di caricamento',
+            'sending': 'Invio…',
+            'submit': 'Prenota',
+            'generic_error': 'Errore. Riprova.',
+            'connection_error': 'Errore di connessione',
+        },
+        'admin': {
+            'login_required': 'Accedi per continuare.',
+            'login': {
+                'title': 'Accesso pannello — G&B Beauty',
+                'heading': 'Pannello amministratore',
+                'subtitle': 'G&B Beauty Salon',
+                'username': 'Nome utente',
+                'password': 'Password',
+                'submit': 'Accedi',
+                'back_to_site': '← Torna al sito',
+                'invalid': 'Nome utente o password non validi.',
+            },
+            'nav': {
+                'dashboard': 'Dashboard',
+                'bookings': 'Prenotazioni',
+                'masters': 'Professioniste',
+                'services': 'Servizi',
+                'clients': 'Clienti',
+                'view_site': 'Vedi il sito',
+                'logout': 'Esci',
+            },
+            'dashboard': {
+                'title': 'Dashboard — Admin',
+                'heading': 'Dashboard',
+                'subtitle': 'Ecco cosa succede oggi in salone.',
+                'stat_today': 'Prenotazioni oggi',
+                'stat_pending': 'In attesa di conferma',
+                'stat_clients': 'Clienti totali',
+                'stat_masters': 'Professioniste attive',
+                'today_bookings': 'Prenotazioni di oggi',
+                'no_bookings_today': 'Nessuna prenotazione per oggi.',
+                'col_time': 'Orario',
+                'col_client': 'Cliente',
+                'col_service': 'Servizio',
+                'col_master': 'Professionista',
+                'col_status': 'Stato',
+            },
+            'bookings': {
+                'title': 'Prenotazioni — Admin',
+                'heading': 'Prenotazioni',
+                'filter_all': 'Tutte',
+                'col_client': 'Cliente',
+                'col_phone': 'Telefono',
+                'col_service': 'Servizio',
+                'col_master': 'Professionista',
+                'col_datetime': 'Data e ora',
+                'col_status': 'Stato',
+                'col_actions': 'Azioni',
+                'confirm': 'Conferma',
+                'complete': 'Completa',
+                'cancel': 'Annulla',
+                'delete': 'Elimina',
+                'delete_confirm': 'Eliminare questa prenotazione?',
+                'empty': 'Nessuna prenotazione trovata.',
+                'flash_status_updated': 'Stato della prenotazione #{id} aggiornato.',
+                'flash_deleted': 'Prenotazione eliminata.',
+            },
+            'masters': {
+                'title': 'Professioniste — Admin',
+                'heading': 'Professioniste',
+                'add_heading': 'Aggiungi una professionista',
+                'name': 'Nome',
+                'specialty': 'Specializzazione',
+                'bio': 'Biografia',
+                'add_button': 'Aggiungi professionista',
+                'col_name': 'Nome',
+                'col_specialty': 'Specializzazione',
+                'col_status': 'Stato',
+                'col_actions': 'Azioni',
+                'active': 'Attiva',
+                'inactive': 'Non attiva',
+                'toggle': 'Attiva/Disattiva',
+                'delete': 'Elimina',
+                'delete_confirm': 'Eliminare questa professionista?',
+                'empty': 'Nessuna professionista ancora. Aggiungine una qui sopra.',
+                'flash_added': '{name} è stata aggiunta.',
+                'flash_deleted': 'Professionista eliminata.',
+            },
+            'services': {
+                'title': 'Servizi — Admin',
+                'heading': 'Servizi',
+                'add_heading': 'Aggiungi un servizio',
+                'name': 'Nome',
+                'description': 'Descrizione',
+                'price': 'Prezzo (€)',
+                'duration': 'Durata (min)',
+                'category': 'Categoria',
+                'no_category': 'Nessuna categoria',
+                'add_button': 'Aggiungi servizio',
+                'col_name': 'Nome',
+                'col_category': 'Categoria',
+                'col_price': 'Prezzo',
+                'col_duration': 'Durata',
+                'col_actions': 'Azioni',
+                'delete': 'Elimina',
+                'delete_confirm': 'Eliminare questo servizio?',
+                'empty': 'Nessun servizio ancora. Aggiungine uno qui sopra.',
+                'flash_added': '«{title}» è stato aggiunto.',
+                'flash_deleted': 'Servizio eliminato.',
+            },
+            'clients': {
+                'title': 'Clienti — Admin',
+                'heading': 'Clienti',
+                'col_name': 'Nome',
+                'col_phone': 'Telefono',
+                'col_email': 'Email',
+                'col_since': 'Cliente da',
+                'col_bookings': 'Prenotazioni',
+                'empty': 'Ancora nessun cliente registrato.',
+            },
+            'status': {
+                'pending': 'In attesa',
+                'confirmed': 'Confermata',
+                'completed': 'Completata',
+                'cancelled': 'Annullata',
+            },
+        },
+        'api': {
+            'slot_taken': 'Questo orario è già occupato. Scegli un altro orario.',
+            'booking_created': 'Prenotazione ricevuta! Ti contatteremo per confermare.',
+        },
+    },
+
+    'en': {
+        'meta': {
+            'default_title': 'G&B Beauty Salon',
+        },
+        'nav': {
+            'services': 'Services',
+            'portfolio': 'Portfolio',
+            'contacts': 'Contact',
+            'book': 'Book now',
+            'menu': 'Menu',
+        },
+        'footer': {
+            'about': 'A beauty salon in the heart of Milan. Professional manicure, pedicure, brows and lashes. '
+                     'We create flawless looks with care for every client.',
+            'nav_heading': 'Navigation',
+            'home': 'Home',
+            'services_prices': 'Services & prices',
+            'portfolio': 'Portfolio',
+            'book_online': 'Book online',
+            'contacts': 'Contact',
+            'contacts_heading': 'Contact',
+            'hours_short': 'Mon–Sat: 9:00 AM – 8:00 PM',
+            'rights': 'All rights reserved.',
+        },
+        'home': {
+            'title': 'G&B Beauty — Beauty Salon in Milan',
+            'eyebrow': 'Beauty Salon · Milan',
+            'sub': 'Manicure · Pedicure · Brows · Lashes',
+            'book_online': 'Book online',
+            'our_work': 'Our work',
+            'scroll': 'scroll',
+            'stats': {
+                'years': 'years of experience',
+                'masters': 'specialists',
+                'clients': 'happy clients',
+                'rating': 'Google rating',
+            },
+            'services': {
+                'label': 'What we do',
+                'heading': 'Services',
+                'subtitle': 'Every detail is thought through to perfection — from the choice of materials to the final touch.',
+                'more': 'Learn more →',
+                'view_all': 'All services & prices',
+                'items': [
+                    {'icon': '💅', 'title': 'Manicure', 'desc': 'Classic, gel-polish or express. Care that speaks for itself.', 'price': 'from €40'},
+                    {'icon': '🦶', 'title': 'Pedicure', 'desc': 'SPA pedicure with massage elements and paraffin therapy.', 'price': 'from €55'},
+                    {'icon': '✨', 'title': 'Brows & lashes', 'desc': 'Shaping, tinting, lamination. A look that\'s remembered.', 'price': 'from €30'},
+                    {'icon': '💆', 'title': 'Hand treatments', 'desc': 'Paraffin therapy, express SPA, intensive nourishment.', 'price': 'from €25'},
+                ],
+            },
+            'masters': {
+                'label': 'Our team',
+                'heading': 'Specialists',
+                'subtitle': 'Professionals who love what they do.',
+            },
+            'portfolio': {
+                'label': 'Work',
+                'heading': 'Portfolio',
+                'view_all': 'View all',
+            },
+            'cta': {
+                'heading': 'Book online',
+                'subtitle': 'Choose a service, a specialist and a time — all in 2 minutes.',
+                'button': 'Book now',
+            },
+        },
+        'services_page': {
+            'title': 'Services & Prices — G&B Beauty',
+            'label': 'Price list',
+            'heading': 'Services & Prices',
+            'tab_all': 'All',
+            'coming_soon': 'Services in this category are coming soon',
+            'book': 'Book',
+            'cta_heading': 'Ready for a transformation?',
+            'cta_subtitle': 'Book online in a few seconds',
+            'cta_button': 'Book now',
+            'categories': [
+                {
+                    'icon': '💅', 'name': 'Manicure',
+                    'items': [
+                        {'title': 'Classic manicure', 'desc': 'Prep, shape, polish', 'duration': 60, 'price': 40},
+                        {'title': 'Combination manicure', 'desc': 'Gentle cuticle treatment', 'duration': 75, 'price': 50},
+                        {'title': 'Gel-polish manicure', 'desc': 'Gel coating, lasts 3–4 weeks', 'duration': 90, 'price': 60},
+                        {'title': 'Nail extensions (gel)', 'desc': 'Sculpting, any shape', 'duration': 120, 'price': 85},
+                    ],
+                },
+                {
+                    'icon': '🦶', 'name': 'Pedicure',
+                    'items': [
+                        {'title': 'Classic pedicure', 'desc': 'Prep, shape, polish', 'duration': 75, 'price': 55},
+                        {'title': 'SPA pedicure', 'desc': 'Soak, treatment, mask, massage', 'duration': 100, 'price': 70},
+                        {'title': 'Combination pedicure', 'desc': 'Combined tool treatment', 'duration': 90, 'price': 65},
+                    ],
+                },
+                {
+                    'icon': '✨', 'name': 'Brows & lashes',
+                    'items': [
+                        {'title': 'Brow shaping', 'desc': 'Shape suited to your face', 'duration': 30, 'price': 25},
+                        {'title': 'Brow tinting', 'desc': 'Henna or dye', 'duration': 20, 'price': 18},
+                        {'title': 'Brow lamination', 'desc': 'Long-lasting effect, up to 6 weeks', 'duration': 40, 'price': 35},
+                        {'title': 'Lash extensions (1D)', 'desc': 'Classic volume', 'duration': 90, 'price': 65},
+                        {'title': 'Lash extensions (2D–3D)', 'desc': 'Light volume', 'duration': 120, 'price': 80},
+                    ],
+                },
+            ],
+        },
+        'booking_page': {
+            'title': 'Online Booking — G&B Beauty',
+            'step1_title': 'Choose a service',
+            'step2_title': 'Choose a specialist and time',
+            'step3_title': 'Your details',
+            'next': 'Next →',
+            'back': '← Back',
+            'master_label': 'Specialist',
+            'date_label': 'Date',
+            'time_label': 'Time',
+            'choose_master_date': 'Choose a specialist and a date',
+            'name_label': 'Name *',
+            'name_placeholder': 'What should we call you?',
+            'phone_label': 'Phone *',
+            'email_label': 'Email',
+            'email_placeholder': 'for confirmation',
+            'notes_label': 'Notes',
+            'notes_placeholder': 'Design, special requests…',
+            'submit': 'Book now',
+            'success_title': 'Booking received!',
+            'success_text': 'We\'ll contact you to confirm within 30 minutes.',
+            'home_button': 'Home',
+            'new_booking_button': 'New booking',
+            'sidebar_title': 'Your summary',
+            'details_title': 'Booking details',
+            'service_label': 'Service',
+            'datetime_label': 'Date & time',
+            'duration_label': 'Duration',
+            'price_label': 'Price',
+            'hours_line': 'Hours: Mon–Sat 9:00 AM–8:00 PM',
+            'questions': 'Questions?',
+            'write_us': 'Message us',
+            'fallback_services': [
+                {'title': 'Classic manicure', 'price': 40, 'duration': 60},
+                {'title': 'Gel-polish manicure', 'price': 60, 'duration': 90},
+                {'title': 'Brow shaping', 'price': 25, 'duration': 30},
+                {'title': 'Brow lamination', 'price': 35, 'duration': 40},
+            ],
+            'fallback_categories': ['Manicure', 'Brows'],
+            'fallback_masters': [
+                {'name': 'Giulia Bianchi', 'spec': 'Manicure · Pedicure'},
+                {'name': 'Martina Rossi', 'spec': 'Brows · Lashes'},
+                {'name': 'Chiara Conti', 'spec': 'Manicure · Nail Art'},
+            ],
+        },
+        'portfolio_page': {
+            'title': 'Portfolio — G&B Beauty',
+            'label': 'Our work',
+            'heading': 'Portfolio',
+            'tab_all': 'All work',
+            'tab_manicure': 'Manicure',
+            'tab_pedicure': 'Pedicure',
+            'tab_brows': 'Brows',
+            'tab_lashes': 'Lashes',
+            'upload_note': 'Upload photos via the',
+            'upload_note_link': 'admin panel',
+            'cta_heading': 'Want the same look?',
+            'cta_subtitle': 'Book with our specialists right now',
+            'cta_button': 'Book now',
+        },
+        'contacts_page': {
+            'title': 'Contact — G&B Beauty',
+            'label': 'How to find us',
+            'heading': 'Contact',
+            'address_label': 'Address',
+            'address_sub': 'Milan, 20121 · Italy',
+            'metro': 'Metro: Montenapoleone (M3)',
+            'phone_label': 'Phone',
+            'hours_label': 'Opening hours',
+            'mon_fri': 'Monday–Friday',
+            'saturday': 'Saturday',
+            'sunday': 'Sunday',
+            'closed': 'Closed',
+            'questions': 'Questions?',
+            'write_us': 'Message us',
+            'book_online': 'Book online',
+            'map_title': 'G&B Beauty on the map',
+            'map_hl': 'en',
+        },
+        'js': {
+            'days': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            'months': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            'min': 'min',
+            'choose_service': 'Choose a service',
+            'choose_master': 'Choose a specialist',
+            'choose_date': 'Choose a date',
+            'choose_time': 'Choose a time',
+            'loading_slots': 'Loading available times…',
+            'no_slots': 'No available times on this date',
+            'load_error': 'Loading error',
+            'sending': 'Sending…',
+            'submit': 'Book now',
+            'generic_error': 'Something went wrong. Please try again.',
+            'connection_error': 'Connection error',
+        },
+        'admin': {
+            'login_required': 'Please sign in to continue.',
+            'login': {
+                'title': 'Admin Login — G&B Beauty',
+                'heading': 'Admin panel',
+                'subtitle': 'G&B Beauty Salon',
+                'username': 'Username',
+                'password': 'Password',
+                'submit': 'Sign in',
+                'back_to_site': '← Back to site',
+                'invalid': 'Invalid username or password.',
+            },
+            'nav': {
+                'dashboard': 'Dashboard',
+                'bookings': 'Bookings',
+                'masters': 'Specialists',
+                'services': 'Services',
+                'clients': 'Clients',
+                'view_site': 'View site',
+                'logout': 'Log out',
+            },
+            'dashboard': {
+                'title': 'Dashboard — Admin',
+                'heading': 'Dashboard',
+                'subtitle': 'Here\'s what\'s happening in the salon today.',
+                'stat_today': 'Bookings today',
+                'stat_pending': 'Awaiting confirmation',
+                'stat_clients': 'Total clients',
+                'stat_masters': 'Active specialists',
+                'today_bookings': 'Today\'s bookings',
+                'no_bookings_today': 'No bookings for today.',
+                'col_time': 'Time',
+                'col_client': 'Client',
+                'col_service': 'Service',
+                'col_master': 'Specialist',
+                'col_status': 'Status',
+            },
+            'bookings': {
+                'title': 'Bookings — Admin',
+                'heading': 'Bookings',
+                'filter_all': 'All',
+                'col_client': 'Client',
+                'col_phone': 'Phone',
+                'col_service': 'Service',
+                'col_master': 'Specialist',
+                'col_datetime': 'Date & time',
+                'col_status': 'Status',
+                'col_actions': 'Actions',
+                'confirm': 'Confirm',
+                'complete': 'Complete',
+                'cancel': 'Cancel',
+                'delete': 'Delete',
+                'delete_confirm': 'Delete this booking?',
+                'empty': 'No bookings found.',
+                'flash_status_updated': 'Booking #{id} status updated.',
+                'flash_deleted': 'Booking deleted.',
+            },
+            'masters': {
+                'title': 'Specialists — Admin',
+                'heading': 'Specialists',
+                'add_heading': 'Add a specialist',
+                'name': 'Name',
+                'specialty': 'Specialty',
+                'bio': 'Bio',
+                'add_button': 'Add specialist',
+                'col_name': 'Name',
+                'col_specialty': 'Specialty',
+                'col_status': 'Status',
+                'col_actions': 'Actions',
+                'active': 'Active',
+                'inactive': 'Inactive',
+                'toggle': 'Toggle',
+                'delete': 'Delete',
+                'delete_confirm': 'Delete this specialist?',
+                'empty': 'No specialists yet. Add one above.',
+                'flash_added': '{name} has been added.',
+                'flash_deleted': 'Specialist deleted.',
+            },
+            'services': {
+                'title': 'Services — Admin',
+                'heading': 'Services',
+                'add_heading': 'Add a service',
+                'name': 'Name',
+                'description': 'Description',
+                'price': 'Price (€)',
+                'duration': 'Duration (min)',
+                'category': 'Category',
+                'no_category': 'No category',
+                'add_button': 'Add service',
+                'col_name': 'Name',
+                'col_category': 'Category',
+                'col_price': 'Price',
+                'col_duration': 'Duration',
+                'col_actions': 'Actions',
+                'delete': 'Delete',
+                'delete_confirm': 'Delete this service?',
+                'empty': 'No services yet. Add one above.',
+                'flash_added': '"{title}" has been added.',
+                'flash_deleted': 'Service deleted.',
+            },
+            'clients': {
+                'title': 'Clients — Admin',
+                'heading': 'Clients',
+                'col_name': 'Name',
+                'col_phone': 'Phone',
+                'col_email': 'Email',
+                'col_since': 'Client since',
+                'col_bookings': 'Bookings',
+                'empty': 'No clients registered yet.',
+            },
+            'status': {
+                'pending': 'Pending',
+                'confirmed': 'Confirmed',
+                'completed': 'Completed',
+                'cancelled': 'Cancelled',
+            },
+        },
+        'api': {
+            'slot_taken': 'This time slot is already booked. Please choose another one.',
+            'booking_created': 'Booking received! We\'ll contact you to confirm.',
+        },
+    },
+}
+
+
+def _lookup(d, key):
+    cur = d
+    for part in key.split('.'):
+        if not isinstance(cur, dict) or part not in cur:
+            return None
+        cur = cur[part]
+    return cur
+
+
+def t(key, lang=None, **kwargs):
+    """Translate `key` (dotted path) into `lang` (defaults to g.lang)."""
+    if lang is None:
+        try:
+            from flask import g
+            lang = getattr(g, 'lang', DEFAULT_LANG)
+        except RuntimeError:
+            lang = DEFAULT_LANG
+
+    value = _lookup(TRANSLATIONS.get(lang, {}), key)
+    if value is None:
+        value = _lookup(TRANSLATIONS[DEFAULT_LANG], key)
+    if value is None:
+        return key
+
+    if isinstance(value, str) and kwargs:
+        return value.format(**kwargs)
+    return value
+
+
+def format_price(value, lang=None):
+    """Locale-aware price formatting: '40,00 €' (it) vs '€40.00' (en)."""
+    if lang is None:
+        try:
+            from flask import g
+            lang = getattr(g, 'lang', DEFAULT_LANG)
+        except RuntimeError:
+            lang = DEFAULT_LANG
+
+    try:
+        amount = float(value)
+    except (TypeError, ValueError):
+        return value
+
+    formatted = f'{amount:,.2f}'
+    if lang == 'it':
+        formatted = formatted.replace(',', 'X').replace('.', ',').replace('X', '.')
+        return f'{formatted} €'
+    return f'€{formatted}'

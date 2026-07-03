@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin — G&amp;B Beauty{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a href="#" class="admin-sidebar__logo">G<span>&amp;</span>B</a>
+
+      <nav class="admin-nav">
+        <a href="#" class="active"><span class="admin-nav__icon">◈</span>{{ t('admin.nav.dashboard') }}</a>
+        <a href="#"><span class="admin-nav__icon">▤</span>{{ t('admin.nav.bookings') }}</a>
+        <a href="#"><span class="admin-nav__icon">✦</span>{{ t('admin.nav.masters') }}</a>
+        <a href="#"><span class="admin-nav__icon">💅</span>{{ t('admin.nav.services') }}</a>
+        <a href="#"><span class="admin-nav__icon">☺</span>{{ t('admin.nav.clients') }}</a>
+      </nav>
+
+      <div class="admin-sidebar__footer">
+        <a href="{{ url_for('main.index') }}" class="admin-sidebar__link">↩ {{ t('admin.nav.view_site') }}</a>
+        <a href="#" class="admin-sidebar__link">⏻ {{ t('admin.nav.logout') }}</a>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <button class="admin-topbar__burger" id="admin-burger" aria-label="{{ t('nav.menu') }}">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="admin-topbar__spacer"></div>
+        <div class="lang-switch">
+          {% for code in languages %}
+            <a href="?lang={{ code }}" class="lang-switch__item {{ 'active' if lang == code else '' }}">{{ language_labels[code] }}</a>
+          {% endfor %}
+        </div>
+      </header>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages flash-messages--admin">
+            {% for cat, msg in messages %}
+              <div class="flash flash-{{ cat }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <main class="admin-content">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

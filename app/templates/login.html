@@ -1,0 +1,34 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ t('admin.login.title') }}{% endblock %}
+
+{% block guest_content %}
+<div class="login-page">
+  <div class="lang-switch login-page__lang">
+    {% for code in languages %}
+      <a href="?lang={{ code }}" class="lang-switch__item {{ 'active' if lang == code else '' }}">{{ language_labels[code] }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="login-card">
+    <div class="login-card__logo">G<span>&amp;</span>B</div>
+    <div class="login-card__subtitle">{{ t('admin.login.subtitle') }}</div>
+    <h1 class="login-card__heading">{{ t('admin.login.heading') }}</h1>
+
+    <form method="POST" action="{{ url_for('admin.login') }}">
+      <div class="form-group">
+        <label class="form-label" for="username">{{ t('admin.login.username') }}</label>
+        <input class="form-input" id="username" name="username" type="text" autocomplete="username" required autofocus>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">{{ t('admin.login.password') }}</label>
+        <input class="form-input" id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px">
+        {{ t('admin.login.submit') }}
+      </button>
+    </form>
+
+    <a href="{{ url_for('main.index') }}" class="login-card__back">{{ t('admin.login.back_to_site') }}</a>
+  </div>
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from app.models import AdminUser, Booking, Master, Service, Client, ServiceCategory
+from app.translations import t
 from datetime import datetime, date, timedelta
 from sqlalchemy import func
 
@@ -23,7 +24,7 @@ def login():
         if user and user.check_password(password):
             login_user(user, remember=True)
             return redirect(url_for('admin.dashboard'))
-        flash('Неверный логин или пароль.', 'danger')
+        flash(t('admin.login.invalid'), 'danger')
 
     return render_template('admin/login.html')
 
@@ -83,7 +84,7 @@ def update_booking_status(booking_id):
     if new_status in ('pending', 'confirmed', 'completed', 'cancelled'):
         booking.status = new_status
         db.session.commit()
-        flash(f'Статус записи #{booking_id} обновлён.', 'success')
+        flash(t('admin.bookings.flash_status_updated', id=booking_id), 'success')
     return redirect(url_for('admin.bookings'))
 
 
@@ -93,7 +94,7 @@ def delete_booking(booking_id):
     booking = Booking.query.get_or_404(booking_id)
     db.session.delete(booking)
     db.session.commit()
-    flash('Запись удалена.', 'success')
+    flash(t('admin.bookings.flash_deleted'), 'success')
     return redirect(url_for('admin.bookings'))
 
 
@@ -117,7 +118,7 @@ def add_master():
     )
     db.session.add(master)
     db.session.commit()
-    flash(f'Мастер {master.name} добавлен.', 'success')
+    flash(t('admin.masters.flash_added', name=master.name), 'success')
     return redirect(url_for('admin.masters'))
 
 
@@ -136,7 +137,7 @@ def delete_master(master_id):
     master = Master.query.get_or_404(master_id)
     db.session.delete(master)
     db.session.commit()
-    flash('Мастер удалён.', 'success')
+    flash(t('admin.masters.flash_deleted'), 'success')
     return redirect(url_for('admin.masters'))
 
 
@@ -165,7 +166,7 @@ def add_service():
     )
     db.session.add(service)
     db.session.commit()
-    flash(f'Услуга «{service.title}» добавлена.', 'success')
+    flash(t('admin.services.flash_added', title=service.title), 'success')
     return redirect(url_for('admin.services'))
 
 
@@ -175,7 +176,7 @@ def delete_service(service_id):
     service = Service.query.get_or_404(service_id)
     db.session.delete(service)
     db.session.commit()
-    flash('Услуга удалена.', 'success')
+    flash(t('admin.services.flash_deleted'), 'success')
     return redirect(url_for('admin.services'))
 
 
